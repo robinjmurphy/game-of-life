@@ -1,31 +1,33 @@
 (function () {
-    var app = {},
-        Matrix = require('./matrix.js'),
-        colours = require('./colours.js'),
+    var Matrix = require('./lib/matrix.js'),
+        game = {},
         states = {
-            'alive': colours.green('X'),
-            'dead': colours.red('-')
+            alive: '1',
+            dead: '0'
         },
-        grid;   // Private variable containing the matrix
+        grid,
+        view;
 
     // Keep track of useful public properties of the application
-    app.properties = {
+    game.properties = {
         "size": undefined,
-        "time": 0
+        "time": 0,
+        "defaultTimeout": 1000
     };
 
-    // Provide a public interface to the states
-    app.DEAD = states['dead'];
-    app.ALIVE = states['alive'];
+    // Make the state values available for testing
+    game.DEAD = states.dead;
+    game.ALIVE = states.alive;
 
     /**
      * Initialize the application
      * @param Number size - The size of the game of life grid
      * @return this
      */
-    app.init = function (size) {
+    game.init = function (size, _view) {
         grid = new Matrix(size);
-        grid.setAll(states['dead']);
+        view = _view;
+        grid.setAll(states.dead);
         this.properties['size'] = size;
         this.properties['time'] = 0;
 
@@ -33,23 +35,14 @@
     };
 
     /**
-     * Print out the current state of play
-     */
-    app.print = function () {
-        var prettyGrid = grid.print();
-
-        console.log('\n' + 'Grid size: ' + this.properties['size'] + ', time: ' + this.properties['time'] + '\n' + prettyGrid);
-    };
-
-    /**
      * Set the inital condition of a cell
      * @param String state - 'alive' or 'dead'
      * @return this
      */
-    app.set = function (x, y, state, matrix) {
+    game.set = function (x, y, state, matrix) {
         matrix = matrix || grid;
-        state = state || states['alive'];
-        matrix.set(y, x, state);
+        state = state || states.alive;
+        matrix.set(x, y, state);
 
         return this;
     };
@@ -59,17 +52,17 @@
      * @param Number x
      * @param Number y
      */
-    app.get = function (x, y) {
-        return grid.get(y, x);
+    game.get = function (x, y) {
+        return grid.get(x, y);
     };
 
     /**
      * Advance the game by one step
      * @return this
      */
-    app.tick = function () {
+    game.tick = function () {
         update();
-        app.properties['time'] += 1;
+        game.properties['time'] += 1;
 
         return this;
     };
@@ -80,17 +73,17 @@
      * @param String state
      * @return String - either the alive or dead state
      */
-    app.judge = function (state, neighbours) {
+    game.judge = function (state, neighbours) {
         var newState = state;
 
-        if (state === states['dead']) {
+        if (state === states.dead) {
             if (neighbours === 3) {
-                newState = states['alive'];
+                newState = states.alive;
             }
         }
-        else if (state === states['alive']) {
+        else if (state === states.alive) {
             if (neighbours >= 4 || neighbours < 2) {
-                newState = states['dead'];
+                newState = states.dead;
             }
         }
 
@@ -102,14 +95,14 @@
      */
 
     function update() {
-        var newGrid = new Matrix(grid.length());
+        var newGrid = new Matrix(grid.length);
 
-        grid.each(function (y, x) {
-            var self = app.get(x, y),
-                neighbours = app.neighbours(x, y),
-                state = app.judge(self, neighbours);
+        grid.each(function (x, y) {
+            var self = game.get(x, y),
+                neighbours = game.neighbours(x, y),
+                state = game.judge(self, neighbours);
 
-            app.set(x, y, state, newGrid);
+            game.set(x, y, state, newGrid);
         });
 
         grid = newGrid;
@@ -121,23 +114,23 @@
      * @param Number y
      * @return Number neighbours
      */
-    app.neighbours = function (x, y) {
+    game.neighbours = function (x, y) {
         var aliveNeighbours = 0,
-            self = grid.get(y, x),
+            self = grid.get(x, y),
             neighbours = {
-                north    : grid.get(y - 1, x),
-                northEast: grid.get(y - 1, x + 1),
-                east     : grid.get(y, x + 1),
-                southEast: grid.get(y + 1, x + 1),
-                south    : grid.get(y + 1, x),
-                southWest: grid.get(y + 1, x - 1),
-                west     : grid.get(y, x - 1),
-                northWest: grid.get(y - 1, x - 1)
+                west     : grid.get(x - 1, y),
+                northWest: grid.get(x - 1, y + 1),
+                noth     : grid.get(x, y + 1),
+                northEast: grid.get(x + 1, y + 1),
+                east     : grid.get(x + 1, y),
+                southEast: grid.get(x + 1, y - 1),
+                south    : grid.get(x, y - 1),
+                southWest: grid.get(x - 1, y - 1)
             };
 
         for (var neighbour in neighbours) {
             if (neighbours.hasOwnProperty(neighbour)) {
-                if (neighbours[neighbour] === states['alive']) {
+                if (neighbours[neighbour] === states.alive) {
                     aliveNeighbours ++;
                 }
             }
@@ -146,17 +139,20 @@
         return aliveNeighbours;
     };
 
-    /*
-     * Start off a loop, printing and ticking at each step
+    /**
+     * Start off a loop, ticking at each step and updating the view
      */
-    app.start = function start() {
-        app.print();
-        app.tick();
+    game.start = function start() {
+        view.update({
+            time: game.properties["time"],
+            grid: grid.toArray()
+        });
+        game.tick();
         setTimeout(function () {
             start();
-        }, 1000);
+        }, view.timeout || game.properties["defaultTimeout"]);
     };
 
     // Return the exports object
-    module.exports = app;
+    module.exports = game;
 })();

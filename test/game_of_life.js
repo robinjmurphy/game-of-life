@@ -1,6 +1,6 @@
 (function () {    
     var assert = require('assert'),
-        gameOfLife = require('../src/game_of_life.js');
+        gameOfLife = require('../main/game_of_life.js');
 
     describe('The Game of Life', function () {
         it('is a module that can be required', function () {
@@ -12,14 +12,10 @@
 
             assert.equal(gol.properties['size'], 20);
         });
-        it('can output the current grid', function () {
-            var gol = gameOfLife.init(5);
-            assert.ok(gol.print);
-        });
         it('has initial conditions that can be set', function () {
             var gol = gameOfLife.init(10);
             
-            gol.set(0, 0).set(1, 0).set(2, 4).set(0, 0, gameOfLife.DEAD);
+            gol.set(0, 0).set(1, 0).set(2, 4).set(0, 0, gol.DEAD);
 
             assert.equal(gol.get(0, 0), gol.DEAD);
             assert.equal(gol.get(1, 0), gol.ALIVE);
@@ -41,6 +37,14 @@
 
             assert.equal(gol.properties['time'], 3);
         });
+        it('can count the number of living neighbours around a cell', function () {
+            var gol = gameOfLife.init(4).set(0, 0).set(1, 1);
+
+            assert.equal(gol.neighbours(0, 0), 1);
+            assert.equal(gol.neighbours(1, 0), 2);
+            assert.equal(gol.neighbours(2, 0), 1);
+            assert.equal(gol.neighbours(3, 0), 0);
+        });
         it('applies the rules of the game to cells with known state and neighbours', function () {
             assert.equal(gameOfLife.judge(gameOfLife.ALIVE, 1), gameOfLife.DEAD);
             assert.equal(gameOfLife.judge(gameOfLife.DEAD, 1), gameOfLife.DEAD);
@@ -50,15 +54,6 @@
             assert.equal(gameOfLife.judge(gameOfLife.DEAD, 3), gameOfLife.ALIVE);
             assert.equal(gameOfLife.judge(gameOfLife.ALIVE, 4), gameOfLife.DEAD);
             assert.equal(gameOfLife.judge(gameOfLife.DEAD, 4), gameOfLife.DEAD);
-        });
-        it('can count the number of living neighbours around a cell', function () {
-            var gol = gameOfLife.init(4).set(0, 0).set(1, 1);
-
-            assert.equal(gol.neighbours(0, 0), 1);
-            assert.equal(gol.neighbours(1, 0), 2);
-            assert.equal(gol.neighbours(2, 0), 1);
-            assert.equal(gol.neighbours(3, 0), 0);
-
         });
     });
 })();

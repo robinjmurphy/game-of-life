@@ -1,6 +1,7 @@
 (function () {    
-    var gameOfLife = require('./src/game_of_life.js'),
-        game = gameOfLife.init(5);
+    var gameOfLife = require('./main/game_of_life.js'),
+        view = require('./main/views/commandline.js'),
+        game = gameOfLife.init(5, view);
 
     /**
      *   Set up the grid:
