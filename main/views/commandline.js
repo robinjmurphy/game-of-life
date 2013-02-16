@@ -33,6 +33,5 @@
         console.log(prettyPrint(data.grid));
     };
 
-    // Return the exports object
     module.exports = view;
 })();
