@@ -7,12 +7,20 @@
 
     /**
      * Print out the grid for display on the command line
+     * Example output:
+     * _________
+     * -|-|-|-|-
+     * -|-|-|-|-
+     * -|X|X|X|-
+     * -|-|-|-|-
+     * -|-|-|-|-
+     * ---------
      */
     function prettyPrint(grid) {
         var prettyGrid = [];
 
         for (var i = 0, len = grid.length; i < len; i++) {
-            prettyGrid[i] = grid[i].join('|')
+            prettyGrid[i] = grid.toArray()[i].join('|')
                             .replace(new RegExp(game.DEAD, 'g'), deadCharacter)
                             .replace(new RegExp(game.ALIVE, 'g'), aliveCharacter);
         }
@@ -31,11 +39,13 @@
         return horizontalDivider('_') + '\n' + prettyGrid.join('\n') + '\n' + horizontalDivider();
     }
 
-    view.timeout = 1000;
+    view.timeout = 500;
 
-    view.update = function (data) {
-        console.log('Time: ' + data.time);
-        console.log(prettyPrint(data.grid));
+    view.update = function (data, output) {
+        var _console = output || console;
+
+        _console.log('Time: ' + data.time);
+        _console.log(prettyPrint(data.grid));
     };
 
     module.exports = view;
