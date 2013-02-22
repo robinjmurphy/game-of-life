@@ -28,6 +28,5 @@
         return colourize(string, 'green');
     };
 
-    // Return the exports object
     module.exports = app;
 })();
