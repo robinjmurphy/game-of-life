@@ -1,25 +1,28 @@
 (function () {
     var game = require('../game_of_life.js'),
         colours = require('../lib/colours.js'),
+        aliveCharacter = colours.green('X'),
+        deadCharacter = '-',
         view = {};
 
-    view.timeout = 1000;
-
+    /**
+     * Print out the grid for display on the command line
+     */
     function prettyPrint(grid) {
         var prettyGrid = [];
 
-        for (var i = 0; i < grid.length; i++) {
+        for (var i = 0, len = grid.length; i < len; i++) {
             prettyGrid[i] = grid[i].join('|')
-                            .replace(new RegExp(game.DEAD, 'g'), '-')
-                            .replace(new RegExp(game.ALIVE, 'g'), colours.green('X'));
+                            .replace(new RegExp(game.DEAD, 'g'), deadCharacter)
+                            .replace(new RegExp(game.ALIVE, 'g'), aliveCharacter);
         }
 
-        function horizontalDivider(_char) {
-            var char = _char || '-',
-                divider = char;
+        function horizontalDivider(char) {
+            var _char = char || '-',
+                divider = _char;
 
-            for (var i = 0; i < grid.length - 1; i++) {
-                divider += '' + char + char;
+            for (var i = 0, len = grid.length; i < len - 1; i++) {
+                divider += '' + _char + _char;
             }
 
             return divider;
@@ -27,6 +30,8 @@
 
         return horizontalDivider('_') + '\n' + prettyGrid.join('\n') + '\n' + horizontalDivider();
     }
+
+    view.timeout = 1000;
 
     view.update = function (data) {
         console.log('Time: ' + data.time);
