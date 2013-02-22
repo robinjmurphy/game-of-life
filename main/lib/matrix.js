@@ -31,6 +31,7 @@
      * @param Number x
      * @param Number y
      * @param value
+     * @return this
      */
     Matrix.prototype.set = function (x, y, value) {
         this._grid[y][x] = value;
