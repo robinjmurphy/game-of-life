@@ -1,5 +1,5 @@
 (function () {
-    var app = {},
+    var colours = {},
         codes = {
             'reset': '\033[0m',
             'bold': '\033[1m',
@@ -20,13 +20,13 @@
         return codes[colour] + string + codes['reset'];
     }
 
-    app.red = function (string) {
+    colours.red = function (string) {
         return colourize(string, 'red');
     };
 
-    app.green = function (string) {
+    colours.green = function (string) {
         return colourize(string, 'green');
     };
 
-    module.exports = app;
+    module.exports = colours;
 })();
