@@ -49,6 +49,17 @@
     };
 
     /**
+     * Utility methods for setting alive/dead cells
+     */
+    game.alive = function (x, y) {
+        return this.set(x, y, states.alive);
+    };
+
+    game.dead = function (x, y) {
+        return this.set(x, y, states.dead);
+    };
+
+    /**
      * Get the value of a cell
      * @param Number x
      * @param Number y

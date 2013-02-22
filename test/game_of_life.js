@@ -15,7 +15,7 @@
         it('has initial conditions that can be set', function () {
             var gol = gameOfLife.init(10);
             
-            gol.set(0, 0).set(1, 0).set(2, 4).set(0, 0, gol.DEAD);
+            gol.alive(0, 0).alive(1, 0).alive(2, 4).dead(0, 0);
 
             assert.equal(gol.get(0, 0), gol.DEAD);
             assert.equal(gol.get(1, 0), gol.ALIVE);
@@ -24,7 +24,7 @@
         it('can tick forward one step', function () {
             var gol = gameOfLife.init(20);
 
-            gol.set(10, 10);
+            gol.alive(10, 10);
 
             assert.equal(gol.properties['time'], 0);
             gol.tick();
@@ -38,7 +38,7 @@
             assert.equal(gol.properties['time'], 3);
         });
         it('can count the number of living neighbours around a cell', function () {
-            var gol = gameOfLife.init(4).set(0, 0).set(1, 1);
+            var gol = gameOfLife.init(4).alive(0, 0).alive(1, 1);
 
             assert.equal(gol.neighbours(0, 0), 1);
             assert.equal(gol.neighbours(1, 0), 2);

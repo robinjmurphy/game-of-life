@@ -13,9 +13,9 @@
      *   |-|-|-|-|-|
      *   -----------
      */
-    game.set(1, 2)
-        .set(2, 2)
-        .set(3, 2);
+    game.alive(1, 2)
+        .alive(2, 2)
+        .alive(3, 2);
 
     /**
      * Start things off!
