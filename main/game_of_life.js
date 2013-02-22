@@ -37,6 +37,7 @@
     /**
      * Set the inital condition of a cell
      * @param String state - 'alive' or 'dead'
+     * @param Matrix matrix - the matrix to use if not the game grid
      * @return this
      */
     game.set = function (x, y, state, matrix) {
@@ -145,7 +146,7 @@
     game.start = function start() {
         view.update({
             time: game.properties["time"],
-            grid: grid.toArray()
+            grid: grid.clone()    // Pass a copy of the current grid to the view
         });
         game.tick();
         setTimeout(function () {
@@ -153,6 +154,5 @@
         }, view.timeout || game.properties["defaultTimeout"]);
     };
 
-    // Return the exports object
     module.exports = game;
 })();

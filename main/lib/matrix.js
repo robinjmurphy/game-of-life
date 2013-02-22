@@ -7,7 +7,7 @@
         this._grid = new Array(size);
         this.length = this._grid.length;
 
-        for (var y = 0; y < this._grid.length; y++) {
+        for (var y = 0, len = this.length; y < len; y++) {
             this._grid[y] = new Array(size);
         }
     };
@@ -44,8 +44,8 @@
      * @param Function callback - receives x, y i.e. callback(x, y)
      */
     Matrix.prototype.each = function (callback) {
-        for (var y = 0; y < this._grid.length; y++) {
-            for (var x = 0; x < this._grid.length; x++) {
+        for (var y = 0, len = this.length; y < len; y++) {
+            for (var x = 0; x < len; x++) {
                 callback(x, y);
             }
         }
@@ -63,10 +63,25 @@
     };
 
     /**
-     * Cast the matrix to a multi-dimensional array
+     * Return the underlying multi-dimensional array
      */
     Matrix.prototype.toArray = function () {
         return this._grid;
+    };
+
+    /**
+     * Return a copy of the Matrix
+     */
+    Matrix.prototype.clone = function () {
+        var original = this,
+            clone = new Matrix(original.length);
+
+        original.each(function (x, y) {
+            var value = original.get(x, y);
+            clone.set(x, y, value);
+        });
+
+        return clone;
     };
 
     module.exports = Matrix;

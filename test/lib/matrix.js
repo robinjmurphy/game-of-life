@@ -32,7 +32,7 @@
             assert.equal(testMatrix.get(1, 0), 'foo');
             assert.equal(testMatrix._grid[0][1], 'foo');
         });
-        it('can be cast to a multi-dimensional array', function () {
+        it('can be return its underlying multi-dimensional array', function () {
             var testMatrix = new Matrix(2);
 
             testMatrix.set(0, 0, 'bart');
@@ -42,6 +42,19 @@
 
             assert.equal(typeof testMatrix.toArray(), 'object');
             assert.equal(testMatrix.toArray()[0][1], 'homer');
+        });
+        it('can return a clone of itself', function () {
+            var testMatrix = new Matrix(3),
+                clonedMatrix;
+
+            testMatrix.set(1, 2, 'foo');
+            clonedMatrix = testMatrix.clone();
+            assert.equal(clonedMatrix.get(1, 2), 'foo');
+            testMatrix.set(1, 2, 'bar');
+
+            // The cloned matrix shouldn't be a reference to the original,
+            // so it should retain the original value.
+            assert.equal(clonedMatrix.get(1, 2), 'foo');
         });
         it('can fire a callback for every cell in the matrix', function () {
             var testMatrix = new Matrix(3),
