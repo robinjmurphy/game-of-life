@@ -15,15 +15,18 @@
         });
         it('outputs the correct string for a given grid', function () {
             var Matrix = require('../../main/lib/matrix.js'),
-                game = require('../../main/game_of_life.js'),
                 colours = require('../../main/lib/colours.js'),
+                states = {
+                    alive: 'alive',
+                    dead: 'dead'
+                },
                 testMatrix,
                 mockConsole,
                 expectedOutput;
 
             testMatrix = new Matrix(2);
-            testMatrix.setAll(game.DEAD);
-            testMatrix.set(0, 0, game.ALIVE);
+            testMatrix.setAll(states.dead);
+            testMatrix.set(0, 0, states.alive);
 
             mockConsole = {
                 _output: '',
@@ -34,7 +37,8 @@
 
             commandline.update({
                 time: 123,
-                grid: testMatrix.clone()
+                grid: testMatrix.clone(),
+                states: states
             }, mockConsole);
 
             expectedOutput =  'Time: 123' + '\n';

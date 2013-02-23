@@ -1,6 +1,5 @@
 (function () {
-    var game = require('../game_of_life.js'),
-        colours = require('../lib/colours.js'),
+    var colours = require('../lib/colours.js'),
         aliveCharacter = colours.green('X'),
         deadCharacter = '-',
         view = {};
@@ -16,13 +15,13 @@
      * -|-|-|-|-
      * ---------
      */
-    function prettyPrint(grid) {
+    function prettyPrint(grid, states) {
         var prettyGrid = [];
 
         for (var i = 0, len = grid.length; i < len; i++) {
             prettyGrid[i] = grid.toArray()[i].join('|')
-                            .replace(new RegExp(game.DEAD, 'g'), deadCharacter)
-                            .replace(new RegExp(game.ALIVE, 'g'), aliveCharacter);
+                            .replace(new RegExp(states.dead, 'g'), deadCharacter)
+                            .replace(new RegExp(states.alive, 'g'), aliveCharacter);
         }
 
         function horizontalDivider(char) {
@@ -45,7 +44,7 @@
         var _console = output || console;
 
         _console.log('Time: ' + data.time);
-        _console.log(prettyPrint(data.grid));
+        _console.log(prettyPrint(data.grid, data.states));
     };
 
     module.exports = view;

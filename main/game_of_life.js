@@ -15,18 +15,17 @@
         "defaultTimeout": 1000
     };
 
-    // Make the state values available for testing
-    game.DEAD = states.dead;
-    game.ALIVE = states.alive;
-
     /**
      * Initialize the application
      * @param Number size - The size of the game of life grid
+     * @param _view - The view object to be updated
+     * @param _states - The underlying alive/dead states in an object (optional)
      * @return this
      */
-    game.init = function (size, _view) {
+    game.init = function (size, _view, _states) {
         grid = new Matrix(size);
         view = _view;
+        states = _states || states;
         grid.setAll(states.dead);
         this.properties['size'] = size;
         this.properties['time'] = 0;
@@ -155,7 +154,8 @@
     game.start = function start() {
         view.update({
             time: game.properties["time"],
-            grid: grid.clone()    // Pass a copy of the current grid to the view
+            grid: grid.clone(),    // Pass a copy of the current grid to the view
+            states: states         // Pass a copy of the state values to the view
         });
         game.tick();
         setTimeout(function () {
