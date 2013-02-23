@@ -2,8 +2,8 @@
     var Matrix = require('./lib/matrix.js'),
         game = {},
         states = {
-            alive: '1',
-            dead: '0'
+            alive: 1,
+            dead: 0
         },
         grid,
         view;
@@ -42,7 +42,6 @@
      */
     game.set = function (x, y, state, matrix) {
         matrix = matrix || grid;
-        state = state || states.alive;
         matrix.set(x, y, state);
 
         return this;
@@ -105,7 +104,6 @@
     /**
      * Updates the grid based on the rules of the game
      */
-
     function update() {
         var newGrid = new Matrix(grid.length);
 

@@ -24,6 +24,15 @@
 
             assert.equal(testMatrix.get(0, 11), undefined);
         });
+        it('can get retrieve falsey values from a cell', function () {
+            var testMatrix = new Matrix(2);
+
+            testMatrix.set(0, 0, 0);
+            testMatrix.set(0, 1, false);
+            
+            assert.equal(testMatrix.get(0, 0), 0);
+            assert.equal(testMatrix.get(0, 1), false);
+        });
         it('can set the values of a cell using cartesian co-ordinates', function () {
             var testMatrix = new Matrix(2);
 

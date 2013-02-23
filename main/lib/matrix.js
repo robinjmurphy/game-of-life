@@ -18,7 +18,7 @@
      * @param Number y
      */
     Matrix.prototype.get = function (x, y) {
-        if (this._grid[y] && this._grid[y][x]) {
+        if ((this._grid[y]) && (this._grid[y][x] !== undefined)) {
             return this._grid[y][x];
         }
         else {
