@@ -1,18 +1,18 @@
 (function () {
     var colours = require('../lib/colours.js'),
         aliveCharacter = colours.green('X'),
-        deadCharacter = '-',
+        deadCharacter = '.',
         view = {};
 
     /**
      * Print out the grid for display on the command line
      * Example output:
      * _________
-     * -|-|-|-|-
-     * -|-|-|-|-
-     * -|X|X|X|-
-     * -|-|-|-|-
-     * -|-|-|-|-
+     * .|.|.|.|.
+     * .|.|.|.|.
+     * .|X|X|X|.
+     * .|.|.|.|.
+     * .|.|.|.|.
      * ---------
      */
     function prettyPrint(grid, states) {
