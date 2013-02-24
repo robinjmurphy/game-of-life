@@ -38,7 +38,7 @@
         return horizontalDivider('_') + '\n' + prettyGrid.join('\n') + '\n' + horizontalDivider();
     }
 
-    view.timeout = 500;
+    view.timeout = 250;
 
     view.update = function (data, output) {
         var _console = output || console;

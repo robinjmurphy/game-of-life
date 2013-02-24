@@ -149,6 +149,24 @@
     };
 
     /**
+     * Randomly assign states to the grid
+     */
+    game.randomise = function () {
+        grid.each(function (x, y) {
+            game.set(x, y, randomState());
+        });
+    };
+
+    function randomState() {
+        if (Math.random() > 0.5) {
+            return states.alive;
+        }
+        else {
+            return states.dead;
+        }
+    }
+
+    /**
      * Start off a loop, ticking at each step and updating the view
      */
     game.start = function start() {
