@@ -42,10 +42,10 @@
             }, mockConsole);
 
             expectedOutput =  'Time: 123' + '\n';
-            expectedOutput += '___' + '\n';
-            expectedOutput += colours.green('X') + '|.' + '\n';
-            expectedOutput += '.|.' + '\n';
-            expectedOutput += '---' + '\n';
+            expectedOutput += '_____' + '\n';
+            expectedOutput += '|' + colours.green('X') + '|.|' + '\n';
+            expectedOutput += '|.|.|' + '\n';
+            expectedOutput += '-----' + '\n';
 
             assert.equal(mockConsole._output, expectedOutput);
         });
